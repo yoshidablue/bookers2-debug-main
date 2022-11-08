@@ -4,7 +4,8 @@ class Book < ApplicationRecord
 
   # dependent: :destroyは、１のモデルが消えた時にそれと付随してNのモデルも消す処理をするため。
   # 例）ユーザーが退会した時に、そのユーザーの投稿やいいねも一緒に消えるようにする処理
-  has_many :favorites, dependent: :destroy
+  has_many :favorites,     dependent: :destroy
+  has_many :book_comments, dependent: :destroy
 
   validates :title, presence: true
   validates :body,  presence: true, length: {maximum: 200}
