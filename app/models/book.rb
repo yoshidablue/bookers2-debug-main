@@ -16,4 +16,23 @@ class Book < ApplicationRecord
     favorites.where(user_id: user.id).exists?
   end
 
+  def self.search_for(content, method)  # contentは検索ワード
+    # 完全一致
+    if method == "perfect"
+      Book.where(title: content)
+    # 前方一致
+    elsif method == "forward"
+      # モデル名.where("カラム名 LIKE ?", 検索したい文字列 + "%")
+      Book.where("title LIKE ?", content + "%")
+    # 後方一致
+    elsif method == "backward"
+      # モデル名.where("カラム名 LIKE ?", "%" + 検索したい文字列)
+      Book.where("title LIKE ?", "%" + content)
+    # 部分一致
+    else
+      # モデル名.where("カラム名 LIKE ?", "%" + 検索したい文字列 + "%")
+      Book.where("title LIKE ?", "%" + content + "%")
+    end
+  end
+
 end
