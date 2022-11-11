@@ -1,18 +1,21 @@
 class BookCommentsController < ApplicationController
 
   def create
-    book = Book.find(params[:book_id])
-    comment = current_user.book_comments.new(book_comment_params)
+    @book = Book.find(params[:book_id])
+    @comment = current_user.book_comments.new(book_comment_params)
     # この本に対してコメントするという結びつき
-    comment.book_id = book.id
-    comment.save
-    redirect_to book_path(book)
+    @comment.book_id = @book.id
+    @comment.save
+    # 非同期通信のため不要
+    # redirect_to book_path(@book)
   end
 
   def destroy
-    book = Book.find(params[:book_id])
-    BookComment.find_by(id: params[:id], book_id: params[:book_id]).destroy
-    redirect_to book_path(book)
+    @book = Book.find(params[:book_id])
+    @comment = BookComment.find(params[:id])
+    @comment.destroy
+    # 非同期通信のため不要
+    # redirect_to book_path(@book)
   end
 
   private
